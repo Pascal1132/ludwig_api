@@ -1,15 +1,13 @@
 const MediaBundle = require("../Aggregate/MediaBundle");
 const Media = require("../Entity/Media");
 
-const MediaHost = process.env.MEDIA_HOST;
-
 module.exports = class MediaFactory {
     static factory(row) {
         let media = new Media();
         media.id = row.media_id;
         media.name = row.media_name;
         media.type = row.media_type;
-        media.url = MediaHost + row.media_url;
+        media.url = row.media_url;
         media.size = row.media_size;
         media.width = row.media_width;
         media.height = row.media_height;
