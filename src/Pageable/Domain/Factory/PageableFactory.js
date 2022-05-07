@@ -13,7 +13,6 @@ const encodedColumns = {
     ]
 }
 const languages = process.env.LANGUAGES.split(",");
-const mediaHost = process.env.MEDIA_HOST;
 
 module.exports = class PageableFactory {
     static factory(data) {

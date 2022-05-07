@@ -1,4 +1,4 @@
-const mediaHost = process.env.MEDIA_HOST;
+
 module.exports = class MediaBundle {
     constructor(id = undefined, medias = {}) {
         this.id = id;
@@ -23,7 +23,7 @@ module.exports = class MediaBundle {
         let urlObject = {};
         for (let mediaId in this.medias) {
             let media = this.medias[mediaId];
-            urlObject[mediaId] = mediaHost + media.url;
+            urlObject[mediaId] = media.url;
         }
         return urlObject;
     }

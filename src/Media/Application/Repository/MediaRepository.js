@@ -1,6 +1,6 @@
 const ARepository = require("../../../Utility/Backbone/ARepository");
 const MediaFactory = require("../../Domain/Factory/MediaFactory");
-const mediaHost = process.env.MEDIA_HOST;
+
 
 module.exports = class MediaRepository extends ARepository {
     async fetchForPageableFactory(data = []) {
@@ -60,7 +60,7 @@ module.exports = class MediaRepository extends ARepository {
                     if (mediaReferenceId) {
                         const foundMedia = medias.filter(media => media.id == mediaReferenceId)[0] || null;
                         if (foundMedia) {
-                            row.field_data_value[language] = mediaHost + foundMedia.url;
+                            row.field_data_value[language] = foundMedia.url;
                             row.field_data_options_value['medias'][language] = foundMedia;
                         }
                     }
