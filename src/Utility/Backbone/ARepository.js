@@ -1,5 +1,8 @@
 module.exports = class ARepository {
-    constructor(query) {
+    language;
+    query;
+    constructor(query, language) {
         this.query = query;
+        this.language = language;
     }
 }

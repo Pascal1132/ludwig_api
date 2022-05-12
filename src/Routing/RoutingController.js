@@ -3,11 +3,13 @@ const PageableService = require('../Pageable/Application/Service/PageableService
 const RoutingRepository = require('./Application/Repository/RoutingRepository');
 const PageableRepository = require('../Pageable/Application/Repository/PageableRepository');
 const cache = require('../Utility/cacheManager');
+const NonPageableRepository = require('../Pageable/Application/Repository/NonPageableRepository');
 const RoutingController = function (query) {
     var express = require('express');
     var router = express.Router();
     var routingRepository = new RoutingRepository(query);
     var pageableRepository = new PageableRepository(query);
+    var nonPageableRepository = new NonPageableRepository(query);
     var routingService = new RoutingService(routingRepository);
     var pageableService = new PageableService(pageableRepository);
 
@@ -38,7 +40,7 @@ const RoutingController = function (query) {
                 return pageableData.getReferenceForRequest().table == routeFound.url_reference_type;
             })[0] ?? null;
             result = await pageableRepository.fetchPageable(pageableData.getReferenceForRequest(), routeFound.url_reference_id);
-            
+
         } catch (err) {
             result = await pageableService.getFourOFour();
         }
@@ -55,18 +57,28 @@ const RoutingController = function (query) {
 
     router.get('/objects/:name', async (req, res) => {
         let name = req.params.name;
-        const {ids, language} = JSON.parse(req.query.ids);
+        const { ids, language } = JSON.parse(req.query.ids);
         let pageableData = pageableService.getPageableReferenceForRequest().filter((pageableData) => {
             return pageableData.getReferenceForRequest().table == name;
         })[0] ?? null;
-        console.log('language: ' , language, 'ids: ' , ids, 'pageableData: ' , pageableData, 'name: ' , name);
-        let arr = await pageableRepository.fetchPageableObjectsForField(pageableData, ids, language);
-        // map arr toJSON(language)
-        let result = arr.map((obj) => {
-            return obj.toJSON(language);
-        });
-        res.json(result);
-        
+        let collection;
+        if (pageableData) {
+            collection = await pageableRepository.fetchPageableObjectsForField(pageableData, ids, language);
+        } else {
+            collection = await nonPageableRepository.fetchObjectsForField(name, ids, language);
+        }
+        if (!collection) {
+            res.status(404).json({
+                error: 'Object not found',
+            })
+        } else {
+            // map arr toJSON(language)
+            let result = collection.map((obj) => {
+                return obj.toJSON(language);
+            });
+            res.json(result);
+        }
+
     })
     return router;
 }

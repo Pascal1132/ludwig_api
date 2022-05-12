@@ -5,7 +5,7 @@ const PageableFactory = require('../../Domain/Factory/PageableFactory');
 
 module.exports = class PageableRepository extends ARepository {
     routes;
-    language;
+
     async fetchPageable(dataReference, referenceId) {
         const { table, prefix } = dataReference;
         this.language = cache.get('language');
@@ -47,18 +47,17 @@ module.exports = class PageableRepository extends ARepository {
         return select + sql;
     }
 
-    _fetchAdditionalData(table, prefix, referenceId) {
-    }
-
     async _fieldsFetchCustomData(rows, dataReference) {
         // foreach rows 
         for (let i = 0; i < rows.length; i++) {
             let row = rows[i];
             let rawData;
-            if (row.field_type == 'Breadcrumb') {
-                rawData = await this._fetchBreadcrumbDataFromId(row.pageable_id, dataReference);
+            switch (row.field_type) {
+                case 'Breadcrumb':
+                    rawData = await this._fetchBreadcrumbDataFromId(row.pageable_id, dataReference);
+                break;
             }
-            row.data = FieldFactory.createFieldData(row.field_type, rawData);
+            row.data = FieldFactory.createFieldData(row.field_type, rawData, this.routes);
         }
         return rows;
     }

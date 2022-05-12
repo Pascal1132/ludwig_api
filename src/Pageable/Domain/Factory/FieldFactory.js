@@ -2,7 +2,7 @@ const BreadcrumbData = require("../Entity/FieldData/BreadcrumbData");
 const Functions = require("../../../Functions");
 
 module.exports = class FieldFactory {
-    static createFieldData(field, raw) {
+    static createFieldData(field, raw, routes) {
         let data = null;
         switch (field){
             case 'Breadcrumb':
@@ -18,6 +18,7 @@ module.exports = class FieldFactory {
                 }
                 data.setItems(items.reverse());
                 break;
+
         }
         return data;
     }

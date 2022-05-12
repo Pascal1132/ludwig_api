@@ -14,4 +14,7 @@ module.exports = class RoutingService {
     async getRouteByReferenceId(id){
         return (await this.getRoutes()).find(r => r.url_reference_id === id);
     }
+    async getRoutesByReferenceIds(ids){
+        return (await this.getRoutes()).filter(r => ids.includes(r.url_reference_id));
+    }
 }
