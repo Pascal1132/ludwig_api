@@ -33,11 +33,11 @@ module.exports = class NonPageableRepository extends ARepository {
         }
         sql = sql.substring(0, sql.length - 2) + `)`;
         let rows = await this.query(sql, sqlParams);
-        console.log(rows);
         let routes = await (new RoutingService()).getRoutes();
         for (let i = 0; i < rows.length; i++) {
             let row = rows[i];
             let form_redirect_url = Functions.languageDecode(row.form_redirect_url);
+            row.input_options = Functions.unserialize(row.input_options);
             // foreach key in form_redirect_url
             for (let key in form_redirect_url) {
                 let referenceId = form_redirect_url[key];

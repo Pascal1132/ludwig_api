@@ -14,7 +14,7 @@ module.exports = class FormInputData extends AFieldData {
         return {
             title: this.title[language] ?? this.title,
             placeholder: this.placeholder[language] ?? this.placeholder,
-            options: this.options,
+            options: this.options?.[language] ?? this.options,
             required: this.required[language] ?? this.required,
             order: this.order,
             id: this.id,
