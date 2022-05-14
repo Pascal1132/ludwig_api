@@ -88,18 +88,18 @@ module.exports = class BlogArticleData extends APageableData {
         return {
             // each language decoded value, return language value if language is not undefined
             id: this.id,
-            previewIcon: this.previewIcon,
-            previewText: (language) ? (this.previewText[language] ?? '') : this.previewText,
-            previewImage: this.previewImage,
-            title: (language) ? (this.title[language] ?? '') : this.title,
+            previewIcon: this.previewIcon?.[language] ?? '',
+            previewText: this.previewText?.[language] ?? '',
+            previewImage: this.previewImage?.[language] ?? '',
+            title: this.title?.[language] ?? '',
             author: {
                 firstName: this.author.firstName,
                 lastName: this.author.lastName,
                 email: this.author.email,
             },
-            /*category: {
-                title: (language) ? (this.category.title[language] ?? '') : this.category.title,
-            },*/
+            category: {
+                title: this.category.title?.[language] ?? '',
+            },
         };
     }
 }

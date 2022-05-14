@@ -22,7 +22,7 @@ module.exports = class Field {
             type: this.type,
             value: (language && this.value) ? (this.value[language] ?? '') : this.value,
             optionsValue: optionsValue,
-            data: (this.data) ? this.data.toJSON(language) : undefined
+            data: (this.data?.toJSON instanceof Function) ? this.data?.toJSON(language) : undefined
         }
     }
 

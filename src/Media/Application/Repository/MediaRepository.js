@@ -82,7 +82,6 @@ module.exports = class MediaRepository extends ARepository {
             }
             sql += `(${references.join(',')})`;
             let result = await this.query(sql, bundleMediaReferenceIds);
-            console.log('fetchAdaptedBundleMedias', result);
             bundles = MediaFactory.bundleCollectionFactory(result);
         }
         return bundles;
