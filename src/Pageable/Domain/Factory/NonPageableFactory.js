@@ -3,6 +3,11 @@ const FormInputData = require("../Entity/FieldData/FormInputData");
 const Functions = require("../../../Functions");
 
 module.exports = class NonPageableFactory {
+    /**
+     * createFormsDataFromMysql
+     * @param array rows 
+     * @returns array
+     */
     static createFormsDataFromMysql(rows) {
         let forms = {};
         for (let row of rows) {

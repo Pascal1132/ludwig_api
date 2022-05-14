@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon app.js",
     "prod": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --reporter spec test/**/*.tests.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,5 +20,8 @@
     "nodemon": "^2.0.15",
     "php-unserialize": "^0.0.1",
     "redis": "^4.0.6"
+  },
+  "devDependencies": {
+    "mocha": "^10.0.0"
   }
 }

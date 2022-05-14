@@ -1,7 +1,18 @@
 const AFieldData = require("../../Backbone/AFieldData");
+const FormInputData = require("./FormInputData");
 
 module.exports = class FormData extends AFieldData {
-    constructor(id, title, subtitle, redirectUrl, redirectType, inputs) {
+    /**
+     * 
+     * @param {object} id
+     * @param {object} title
+     * @param {object} subtitle
+     * @param {object} redirectUrl
+     * @param {object} redirectType
+     * @param {FormInputData[]} inputs
+     * 
+     */
+    constructor(id, title, subtitle, redirectUrl, redirectType, inputs = []) {
         super();
         this.id = id;
         this.title = title;

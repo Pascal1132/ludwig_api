@@ -16,7 +16,9 @@ module.exports = class Functions {
             let languages = value.split("|||");
             for (let i = 0; i < languages.length; i++) {
                 let language = languages[i].split("@");
-                result[language[0]] = language[1];
+                if (language.length >= 1 && language.length == 2) {
+                    result[language[0]] = language[1];
+                }
             }
         } else {
             result = value;

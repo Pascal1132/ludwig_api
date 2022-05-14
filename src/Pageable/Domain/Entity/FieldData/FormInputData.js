@@ -1,5 +1,15 @@
 const AFieldData = require("../../Backbone/AFieldData");
 module.exports = class FormInputData extends AFieldData {
+    /**
+     * 
+     * @param {object} title 
+     * @param {object} placeholder 
+     * @param {object} options 
+     * @param {object} required 
+     * @param {string} order 
+     * @param {string} id 
+     * @param {string} type 
+     */
     constructor(title, placeholder, options, required, order, id, type) {
         super();
         this.title = title;
@@ -15,7 +25,7 @@ module.exports = class FormInputData extends AFieldData {
             title: this.title[language] ?? this.title,
             placeholder: this.placeholder[language] ?? this.placeholder,
             options: this.options?.[language] ?? this.options,
-            required: this.required[language] ?? this.required,
+            required: this.required?.[language] ?? this.required,
             order: this.order,
             id: this.id,
             type: this.type

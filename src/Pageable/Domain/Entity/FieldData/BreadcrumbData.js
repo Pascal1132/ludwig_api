@@ -15,7 +15,7 @@ module.exports = class BreadcrumbData extends AFieldData {
         for (let i = 0; i < this.items.length; i++) {
             const item = this.items[i];
             items.push({
-                title: (language !== undefined) ? item.title[language] : item.title,
+                title: item.title?.[language] ?? item.title,
                 url: item.url
             });
         }

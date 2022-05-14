@@ -74,8 +74,8 @@ module.exports = class BlogArticleData extends APageableData {
 
     getMediaProperties(language) {
         return [
-            this.previewIcon? this.previewIcon[language] : '',
-            this.previewImage? this.previewImage[language] : '',
+            this.previewIcon?.[language] ?? '',
+            this.previewImage?.[language] ?? '',
         ];
     }
 
