@@ -9,7 +9,7 @@ module.exports = class FieldFactory {
                 data = new BreadcrumbData();
                 // foreach raw, create an object with title and url
                 const items = [];
-                for (let i = 0; i < raw.length; i++) {
+                for (let i = 0; i < raw?.length ?? []; i++) {
                     const item = raw[i];
                     items.push({
                         title: Functions.languageDecode(item.title),

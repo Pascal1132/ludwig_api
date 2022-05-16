@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon app.js",
     "prod": "node app.js",
-    "test": "mocha --reporter spec test/**/*.tests.js"
+    "test": "mocha -R spec \"test/**/*.tests.js\" "
   },
   "author": "",
   "license": "ISC",
