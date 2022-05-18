@@ -84,9 +84,9 @@ describe("BlogArticleData", function () {
         it("should set the previewIcon as the first item of the array in params and the previewImage as the second item", function () {
             let data = new BlogArticleData();
             let medias = ["previewIcon", "previewImage"];
-            data.setMediaProperties(medias);
-            assert.equal(data.previewIcon, "previewIcon");
-            assert.equal(data.previewImage, "previewImage");
+            data.setMediaProperties(medias, "fr");
+            assert.equal(data.previewIcon["fr"], "previewIcon");
+            assert.equal(data.previewImage["fr"], "previewImage");
         });
     });
     describe("toJSON", function () {

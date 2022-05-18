@@ -3,9 +3,9 @@ const APageableData = require("../../Backbone/APageableData");
 
 module.exports = class BlogArticleData extends APageableData {
     id;
-    previewIcon;
-    previewText;
-    previewImage;
+    previewIcon = {};
+    previewText = {};
+    previewImage = {};
     title;
     author = {
         firstName: undefined,
@@ -79,9 +79,9 @@ module.exports = class BlogArticleData extends APageableData {
         ];
     }
 
-    setMediaProperties(medias) {
-        this.previewIcon = medias[0];
-        this.previewImage = medias[1];
+    setMediaProperties(medias, language) {
+        this.previewIcon[language] = medias[0];
+        this.previewImage[language] = medias[1];
     }
 
     toJSON(language) {

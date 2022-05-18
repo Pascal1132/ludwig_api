@@ -96,7 +96,7 @@ module.exports = class PageableRepository extends ARepository {
     async fetchPageableObjectsForField(dataReference, ids, language) {
         const { table, prefix } = dataReference.getReferenceForRequest();
         const leftJoins = dataReference.leftJoins();
-        let sql = `SELECT * FROM ` + table;
+        let sql = `SELECT ${dataReference.select()} FROM ` + table;
         for (let i = 0; i < leftJoins.length; i++) {
             let { table, on } = leftJoins[i];
             sql += ` LEFT JOIN ${table} ON ${on}`;
@@ -115,10 +115,11 @@ module.exports = class PageableRepository extends ARepository {
 
         let objects = dataReference.createFromMysql(await this.query(sql, sqlParams));
         const mediaRepository = new MediaRepository(this.query);
+        // FIXME: optimized to make one request
         for (let i = 0; i < objects.length; i++) {
             let ids = objects[i].getMediaProperties(language);
             let medias = await mediaRepository.fetchMediasByIds(ids);
-            objects[i].setMediaProperties(ids.map(id => medias.find(media => media.id == id)));
+            objects[i].setMediaProperties(ids.map(id => medias.find(media => media.id == id)), language);
         }
         return objects;
     }
