@@ -4,6 +4,8 @@ const RoutingRepository = require('./Application/Repository/RoutingRepository');
 const PageableRepository = require('../Pageable/Application/Repository/PageableRepository');
 const cache = require('../Utility/cacheManager');
 const NonPageableRepository = require('../Pageable/Application/Repository/NonPageableRepository');
+const routes = require('../routes')();
+
 const RoutingController = function (query) {
     var express = require('express');
     var router = express.Router();
@@ -63,7 +65,9 @@ const RoutingController = function (query) {
         })[0] ?? null;
         let collection;
         if (pageableData) {
-            collection = await pageableRepository.fetchPageableObjectsForField(pageableData, ids, language);
+            collection = await pageableRepository.fetchPageableObjects(pageableData, language, {
+                ids: ids,
+            });
         } else {
             collection = await nonPageableRepository.fetchObjectsForField(name, ids, language);
         }
@@ -80,7 +84,20 @@ const RoutingController = function (query) {
         }
 
     })
+    for (let i = 0; i < routes.length; i++) {
+        let route = routes[i];
+        if (route.method == 'get') {
+            router.get(route.path, async (req, res) =>{
+                return route.handler(req, res, {
+                    query: query,
+                    pageableRepository,
+                })
+            });
+        }
+    }
     return router;
+
+
 }
 module.exports = RoutingController;
 

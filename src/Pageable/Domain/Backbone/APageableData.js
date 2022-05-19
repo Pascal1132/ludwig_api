@@ -18,6 +18,13 @@ module.exports = class APageableData {
             hasParentId: false,
         }
     }
+
+    static requestFilters(params = {}, requestConditions = [], sqlParams = []) {
+        return requestConditions;
+    }
+
+    static select() { return '*'; }
+
     getMediaProperties() {
         return [];
     }

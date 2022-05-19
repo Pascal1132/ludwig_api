@@ -55,7 +55,7 @@ module.exports = class PageableRepository extends ARepository {
             switch (row.field_type) {
                 case 'Breadcrumb':
                     rawData = await this._fetchBreadcrumbDataFromId(row.pageable_id, dataReference);
-                break;
+                    break;
             }
             row.data = FieldFactory.createFieldData(row.field_type, rawData, this.routes);
         }
@@ -93,7 +93,8 @@ module.exports = class PageableRepository extends ARepository {
     }
 
     // Fetch objects for field with objects
-    async fetchPageableObjectsForField(dataReference, ids, language) {
+    async fetchPageableObjects(dataReference, language, params) {
+        const { ids } = params;
         const { table, prefix } = dataReference.getReferenceForRequest();
         const leftJoins = dataReference.leftJoins();
         let sql = `SELECT ${dataReference.select()} FROM ` + table;
@@ -103,16 +104,20 @@ module.exports = class PageableRepository extends ARepository {
         }
 
         let sqlParams = [];
-        if (ids.length > 0) {
-            sql += ` WHERE CAST(` + prefix + `id as CHAR)  IN (`;
-            // In case of multiple ids with ?
+        let conditions = [];
+        if (ids && ids.length > 0) {
+            let str = (`${prefix}id IN (`);
             for (let i = 0; i < ids.length; i++) {
-                sql += `?, `;
+                str += (`?, `);
                 sqlParams.push(ids[i]);
             }
-            sql = sql.substring(0, sql.length - 2) + `)`;
+            str = `${str.substring(0, str.length - 2)})`;
+            conditions.push(str);
         }
-
+        conditions = dataReference.requestFilters(params, conditions);
+        if (conditions.length > 0) {
+            sql += ` WHERE ` + conditions.join(' AND ');
+        }
         let objects = dataReference.createFromMysql(await this.query(sql, sqlParams));
         const mediaRepository = new MediaRepository(this.query);
         // FIXME: optimized to make one request

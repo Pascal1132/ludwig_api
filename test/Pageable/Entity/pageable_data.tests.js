@@ -147,4 +147,14 @@ describe("BlogArticleData", function () {
             assert.equal(result.category.title, "title");
         });
     });
+    describe("requestFilters", function () {
+        it("should return an array" , function () {
+            let result = BlogArticleData.requestFilters();
+            assert.equal(Array.isArray(result), true);
+        });
+        it("should return the same array as the second parameter" , function () {
+            let result = BlogArticleData.requestFilters({}, ["test"]);
+            assert.equal(result[0], "test");
+        });
+    });
 });
